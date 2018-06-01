@@ -6,3 +6,4 @@ public interface UserDao {
 
 	User saveUser(User user);
 }
+
