@@ -32,8 +32,8 @@ public class PollCategory implements Serializable{
     private int id;
 	@NotEmpty
 	private String pollcategory;
-	@OneToMany(fetch=FetchType.EAGER, orphanRemoval = true,cascade=CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+	@OneToMany(fetch=FetchType.EAGER,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
+	
 	private List<PollQuestions> questions;
 	public int getId() {
 		return id;
