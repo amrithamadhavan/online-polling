@@ -13,4 +13,6 @@ public interface PollCategoryDao {
 
 	public Boolean deletecategory(int id);
 
+	public PollCategory getcategorybyid(int id);
+
 }
