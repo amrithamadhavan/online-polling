@@ -25,4 +25,21 @@ public class PollQuestionsDaoImpl implements PollQuestionsDao {
 		return sessionFactory.getCurrentSession().createQuery("from PollQuestions where POLLCATEGORY_ID='"+id+"'",PollQuestions.class).getResultList();
 
 }
+	@Transactional
+	public void savequestion(PollQuestions question) {
+		sessionFactory.getCurrentSession().saveOrUpdate(question);
+	}
+	
+	@Transactional
+	public PollQuestions getquestionbyid(int id) {
+		PollQuestions pollquestion=sessionFactory.getCurrentSession().get(PollQuestions.class, id);
+		return pollquestion;
+	}
+	@Transactional
+	public void deletequestion(PollQuestions question, int id) {
+		question.setId(id);
+		sessionFactory.getCurrentSession().delete(question);
+		
+	}
 }
+
