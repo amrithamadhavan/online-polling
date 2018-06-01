@@ -12,50 +12,28 @@
 
 
 <!-- <script type="text/javascript">
-
         function doAjaxPost() {
-
         // get the form values
-
         var name = $('#name').val();
-
        
-
  
-
         $.ajax({
-
         type: "POST",
-
         url: "http://localhost:9000/online-polling/admin/addcategory",
-
         data: "pollcategory=" + name,
-
         success: function(response){
-
         // we have the response
-
         //$('#info').html(response);
-
         $('#name').val('');
-
         
-
         },
-
         error: function(e){
-
         alert('Error: ' + e);
         alert("error");
-
         }
-
         });
-
         }
-
         </script>
-
     </head>-->
 
     <body>
@@ -87,7 +65,7 @@
 
 <ul style="margin-left:600px;margin-top:100px">
 <c:forEach items="${categories}" var="category">
-<h2><li><a class="col-sm-3" href="${pageContext.request.contextPath}/admin/listquestions/${category.id}">${category.pollcategory}</a><a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/editcategory">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/deletecategory/${category.id}">delete</a></h2>
+<h2><li><a class="col-sm-3" href="${pageContext.request.contextPath}/admin/listquestions/${category.id}">${category.pollcategory}</a><a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/editcategory/${category.id}">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/deletecategory/${category.id}">delete</a></h2>
 </c:forEach>
 </ul>
 <div style="margin-left:650px;margin-top:50px">
