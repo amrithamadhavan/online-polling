@@ -26,15 +26,15 @@ public class PollQuestions implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-	@NotEmpty
+	
 	private String que;
-	@NotEmpty
+	
 	private String op1;
-	@NotEmpty
+	
 	private String op2;
-	@NotEmpty
+	
 	private String op3;
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private PollCategory pollcategory;
 	public int getId() {
 		return id;
@@ -74,3 +74,4 @@ public class PollQuestions implements Serializable{
 	}
 	
 }
+
