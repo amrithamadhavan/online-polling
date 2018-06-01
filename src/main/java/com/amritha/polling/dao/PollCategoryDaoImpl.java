@@ -67,12 +67,20 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 				
 		for(PollQuestions pollque:pq)
 		{	
+		/*PollQuestions que=new PollQuestions();
+		que.setId(pollque.getId());*/
 			session.delete(pollque);
 				System.out.println("hello");}
 				
 		session.delete(pollcategory);
 		System.out.println("hello");
-		return true;
+	return true;	
+	}
+	
+	@Transactional
+	public PollCategory getcategorybyid(int id) {
+		PollCategory pc=sessionFactory.getCurrentSession().get(PollCategory.class,id);
+		return pc;
 	}
 	
 	/*private boolean deleteById(PollCategory pollcategory, Serializable id) {
@@ -85,3 +93,4 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 	    return false;
 	}*/
 }
+
