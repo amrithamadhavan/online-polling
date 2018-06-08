@@ -1,5 +1,6 @@
 package com.amritha.polling.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.amritha.polling.dao.PollCategoryDao;
 import com.amritha.polling.dao.PollQuestionsDao;
+import com.amritha.polling.dao.UserDao;
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
+import com.amritha.polling.model.User;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,6 +28,8 @@ public class AdminController {
 	PollCategoryDao pcDao;
 	@Autowired
 	PollQuestionsDao pqDao;
+	@Autowired
+	UserDao userDao;
 	@RequestMapping("/dispajax")
 		public String categorydetails(Model model) {
 			
@@ -32,6 +37,102 @@ public class AdminController {
 			model.addAttribute("categories", pc);
 			model.addAttribute("pollcategory", new PollCategory());
 			return "adminpolls";
+	}
+	
+	@RequestMapping("/editusers")
+	public String editusers() {
+		return "listusers";
+	}
+	@RequestMapping("/setaspollmaster/{id}")
+	public String setaspm(@PathVariable("id") int id)
+	{
+		userDao.setrole(id);
+		return "listusers";
+	}
+	
+	@RequestMapping("/pollmasters/{id}")
+	public String pollmasters(@PathVariable("id") int id,Model model) {
+		
+		PollCategory pc=pcDao.getcategorybyid(id);
+	List<User> pmforpc=pc.getPollmasters();
+	if(pmforpc!=null) {
+		model.addAttribute("pmforpc",pmforpc);
+	}
+	else
+	{
+model.addAttribute("pmforpc",new ArrayList<User>());		
+	}
+	model.addAttribute("id", id);
+	List<User> pollmas=userDao.getPollMasters();
+	model.addAttribute("pollmas", pollmas);
+	return "pollmastersforpc";
+}
+	
+	@RequestMapping("/addpmforpc/{id}/{pmid}")
+     public String addpmforpc(@PathVariable("id") int id,@PathVariable("pmid") int pmid,Model model) {
+		User user=userDao.getUserById(pmid);
+		PollCategory pc=pcDao.getcategorybyid(id);
+		List<User> pmforpc=pc.getPollmasters();
+		//boolean is=pmforpc.contains(user);
+		for(User pm:pmforpc) {
+			if(pm.getId()==pmid) {
+				System.out.println("element already present");
+				model.addAttribute("pmforpc",pmforpc);
+				model.addAttribute("id", id);
+				List<User> pollmas=userDao.getPollMasters();
+				model.addAttribute("pollmas", pollmas);
+				return "pollmastersforpc";
+		}}
+		
+		pmforpc.add(user);
+		pc.setPollmasters(pmforpc);
+		pcDao.savecategory(pc);
+		
+		
+		model.addAttribute("pmforpc",pmforpc);
+		model.addAttribute("id", id);
+		List<User> pollmas=userDao.getPollMasters();
+		model.addAttribute("pollmas", pollmas);
+		return "pollmastersforpc";
+		
+	}
+	
+
+	@RequestMapping("/deletepmforpc/{id}/{pmid}")
+    public String deletepmforpc(@PathVariable("id") int id,@PathVariable("pmid") int pmid,Model model) {
+	System.out.println("happy deleting");
+		User user=userDao.getUserById(pmid);
+		PollCategory pc=pcDao.getcategorybyid(id);
+		List<User> pmforpc=new ArrayList<User>();
+		pmforpc=pc.getPollmasters();
+		
+		for(User pm:pmforpc) {
+			if(pm.equals(user)) {
+				System.out.println(pmforpc.remove(user));
+				break;
+			}
+		}
+		//System.out.println("index is"+pmforpc.indexOf(user));
+		//System.out.println(pmforpc.remove(user));
+		//pmforpc.remove(user);
+		pc.setPollmasters(pmforpc);
+		pcDao.savecategory(pc);
+		
+		
+		
+		model.addAttribute("pmforpc",pmforpc);
+		model.addAttribute("id", id);
+		List<User> pollmas=userDao.getPollMasters();
+		model.addAttribute("pollmas", pollmas);
+		return "pollmastersforpc";
+		
+	}
+	@RequestMapping("/listusers")
+	public @ResponseBody List<User> listusers(Model model)
+	{
+		List<User> userlist=userDao.listusers();
+		//model.addAttribute("users",userlist);
+		return userlist;
 	}
 	@RequestMapping("/listquestions/{id}")
 	public String listques(@PathVariable("id") int id, Model model) {
@@ -69,7 +170,7 @@ public class AdminController {
 	model.addAttribute("pq", pqDao.listquestions(id));
 		return "listquestions";
 	}
-	@RequestMapping("/addquestions/{id}")
+	/*@RequestMapping("/addquestions/{id}")
 	public String addquestions(@PathVariable("id") int id,Model model) {
 		model.addAttribute("cid",id);
 		PollCategory pc=pcDao.getcategorybyid(id);
@@ -120,7 +221,7 @@ public class AdminController {
 		pqDao.deletequestion(question,id);
 		model.addAttribute("pq", pqDao.listquestions(cid));
 		return "listquestions";
-	}
+	}*/
 		
 		@RequestMapping("/deletecategory/{id}")
 	public String deletecategory(@PathVariable("id") int id,Model model) {
