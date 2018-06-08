@@ -7,22 +7,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
-
-<div class="container">
-  <div class="jumbotron">
-    <h1>Choose your Poll.!</h1> 
-    
-  </div>
-  
-</div>
-
+<body><h1>welcome to pm page</h1>
 
 <ul style="margin-left:600px;margin-top:100px">
 <c:forEach items="${categories}" var="category">
-<h2><li><a href="${pageContext.request.contextPath}/user/listquestions/${category.id}">${category.pollcategory}</h2>
+<h2><li><a class="col-sm-3" href="${pageContext.request.contextPath}/ap/listquestions/${category.id}">${category.pollcategory}</a><a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/ap/editcategory/${category.id}">Edit</a></h2>
 </c:forEach>
 </ul>
-<center>
 </body>
 </html>

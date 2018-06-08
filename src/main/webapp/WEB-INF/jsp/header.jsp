@@ -35,6 +35,7 @@
      <li><a href="${pageContext.request.contextPath}/user/polls">Polls</a></li>
      
       <li><a href="${pageContext.request.contextPath}/admin/dispajax">Admin</a>
+      <li><a href="${pageContext.request.contextPath}/pollmaster/polls">PollMaster</a>
       </ul>
     <ul class="nav navbar-nav navbar-right">
     <li><a href="${pageContext.request.contextPath}/viewprofile" class="btn btn-md"> <span class="glyphicon glyphicon-user"></span>ViewProfile</a>

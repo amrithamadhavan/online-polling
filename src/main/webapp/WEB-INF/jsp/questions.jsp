@@ -12,23 +12,32 @@
 
 
 <ul>
-<c:forEach items="${pq}" var="question">
+<form:form action="${pageContext.request.contextPath}/user/submit/${id}" modelAttribute="que">
+<c:forEach items="${pq}" var="question" varStatus="ch">
 <h3>
 <br>
-<form:form action="${pageContext.request.contextPath}/user/submit" modelAttribute="que">
+
 <li>${question.que}<br><br>
 <!--<form:radiobutton name="radioname" value="${question.op1}" label="${question.op1}" path="op1" /><br>
 <form:radiobutton name="radioname" value="${question.op2}" label="${question.op2}" path="op2" /><br>
 <form:radiobutton name="radioname" value="${question.op3}" label="${question.op3}" path="op3" /><br>-->
- <input type="radio" name="radioname" value="${question.op1}">${question.op1}<br>
-<input type="radio" name="radioname" value="${question.op2}">${question.op2}<br>
-<input type="radio" name="radioname" value="${question.op3}">${question.op3}<br>
+ <input type="radio" name="radioname[${ch.index}]" value="${question.op1}">${question.op1}<br>
+<input type="radio" name="radioname[${ch.index}]" value="${question.op2}">${question.op2}<br>
+<input type="radio" name="radioname[${ch.index}]" value="${question.op3}">${question.op3}<br>
+<input type="hidden" name="qid[${ch.index}]" value="${question.id}">
 </li></h3>
-<input type="submit" name="submit">
-</form:form>
+
+
 </c:forEach>
+<input type="submit" name="submit" />
+</form:form>
 </ul>
 
-
+<!-- <script>
+$('input[type=submit]').click(function() {
+    $(this).attr('disabled', 'disabled');
+    $(this).parents('form').submit()
+})-->
+</script>
 </body>
 </html>

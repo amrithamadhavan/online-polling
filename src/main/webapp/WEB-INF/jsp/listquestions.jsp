@@ -20,11 +20,11 @@
 <input type="radio" name="radioname" value="${question.op2}">${question.op2}<br>
 <input type="radio" name="radioname" value="${question.op3}">${question.op3}<br>
 </li></h3>
-<a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/editquestion/${question.id}">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/deletequestion/${question.id}">Delete</a>
+<a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/ap/editquestion/${question.id}">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/ap/deletequestion/${question.id}">Delete</a>
 
 </c:forEach>
 </ul>
 
 <div style="margin-left:650px;margin-top:50px">
-<a class="btn btn-info btn-lg" href="${pageContext.request.contextPath}/admin/addquestions/${id}">Add</a>
+<a class="btn btn-info btn-lg" href="${pageContext.request.contextPath}/ap/addquestions/${id}">Add</a>
 </div>

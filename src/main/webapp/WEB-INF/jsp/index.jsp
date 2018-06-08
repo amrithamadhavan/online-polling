@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-hello welcome ..this is your poll..!
+hello welcome ..this is your poll..! 
+<div>
+<img src="${pageContext.request.contextPath}/resources/images/xyz.jpg" width="300px" height="300px" alt="hi">
+</div>
 </body>
 </html>

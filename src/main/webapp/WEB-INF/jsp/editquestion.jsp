@@ -13,8 +13,8 @@
 .navbar-inverse {
     background-color: #222;
     border-color: #080808;
-    margin-left: -68px;
-    margin-right: -68px;
+    margin-left: -265px;
+    margin-right: -268px;
 }
 .form-control
 {
@@ -31,7 +31,7 @@ width:400
 <!-- <button class="btn btn-danger"><a href="<c:url value='/display' />">Display</a></button>-->
 	<h2>Edit Question</h2>
 	
-	<form:form action="${pageContext.request.contextPath}/admin/confeditque/${cid}" modelAttribute="que">
+	<form:form action="${pageContext.request.contextPath}/ap/confeditque/${cid}" modelAttribute="que">
 		<table class="table">
 		
 				<form:input type="hidden" name="queid" class="form-control" value="${que.id}" path="id"/>
@@ -61,13 +61,20 @@ width:400
 			<td>pollcategory:</td>
 			<td><form:input type="text" name="category"  class="form-control" value="${que.getPollcategory().getPollcategory()}" path="pollcategory.id" /></td>
 			</tr>-->
-			<tr class="form-group">
+			
+			<tr>
+			<td>Category:</td>
+			<td>${pcname}<form:input type="hidden" name="category" required="required" value="${cid}"  path="pollcategory.id"/></td>
+			</tr>
+			
+			
+			<!-- <tr class="form-group">
 				<td>PollCategory:</td>
 				<td><form:select class="form-control" path="pollcategory.id">
 		            <form:options items="${categories}" itemLabel="pollcategory" itemValue="id"></form:options>
 		            </form:select>
 				    </td>
-			</tr>
+			</tr>-->
 			<tr>
 				<td><input type="submit" value="update" class="btn btn-primary"></td>
 				

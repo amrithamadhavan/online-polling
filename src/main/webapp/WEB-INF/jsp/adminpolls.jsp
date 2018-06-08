@@ -58,19 +58,30 @@
 </div>
 </form:form>-->
 
-
+<div class="container">
+  <div class="jumbotron">
+    <h1>welcome..!</h1> 
+    
+  </div>
+  
+</div>
 
 
 
 
 <ul style="margin-left:600px;margin-top:100px">
 <c:forEach items="${categories}" var="category">
-<h2><li><a class="col-sm-3" href="${pageContext.request.contextPath}/admin/listquestions/${category.id}">${category.pollcategory}</a><a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/editcategory/${category.id}">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/deletecategory/${category.id}">delete</a></h2>
+<h2><li><a class="col-sm-3" href="${pageContext.request.contextPath}/admin/listquestions/${category.id}">${category.pollcategory}</a><a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/editcategory/${category.id}">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/deletecategory/${category.id}">delete</a><a class="btn btn-primary btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/pollmasters/${category.id}">PollMasters</a></h2>
 </c:forEach>
 </ul>
 <div style="margin-left:650px;margin-top:50px">
 <a class="btn btn-info btn-lg" href="${pageContext.request.contextPath}/admin/addcategory">Add</a>
 </div>
+<div style="margin-left:800px;margin-top:-48px">
+<a class="btn btn-info btn-lg" href="${pageContext.request.contextPath}/admin/editusers">EditUsers</a>
+</div>
+
+
 <center>
 </body>
 </html>
