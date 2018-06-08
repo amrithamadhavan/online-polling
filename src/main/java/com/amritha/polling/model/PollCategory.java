@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,6 +36,10 @@ public class PollCategory implements Serializable{
 	@OneToMany(fetch=FetchType.EAGER,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
 	
 	private List<PollQuestions> questions;
+	
+	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	private List<User> pollmasters;
+	
 	public int getId() {
 		return id;
 	}
@@ -53,7 +58,12 @@ public class PollCategory implements Serializable{
 	public void setQuestions(List<PollQuestions> questions) {
 		this.questions = questions;
 	}
-	
+	public List<User> getPollmasters() {
+		return pollmasters;
+	}
+	public void setPollmasters(List<User> pollmasters) {
+		this.pollmasters = pollmasters;
+	}
 
 	
 }

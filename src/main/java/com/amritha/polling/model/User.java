@@ -32,9 +32,10 @@ public class User implements Serializable{
 	private String pwd;
 	private String role;
 	private String enabled;
-	/*public int getId() {
+	public int getId() {
 		return id;
 	}
+	/*
 	public void setId(int id) {
 		this.id = id;
 	}*/
@@ -61,6 +62,13 @@ public class User implements Serializable{
 	}
 	public void setEnabled(String enabled) {
 		this.enabled = enabled;
+	}
+	public boolean equals(Object obj) {
+	    if (obj == null) return false;
+	    if (obj == this) return true;
+	    if (!(obj instanceof User)) return false;
+	    User o = (User) obj;
+	    return o.id== this.id && o.getUname()==this.uname && o.pwd==this.pwd &&o.role==this.role && o.enabled==this.enabled;
 	}
 	
 }
