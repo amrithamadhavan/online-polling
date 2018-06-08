@@ -83,14 +83,6 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 		return pc;
 	}
 	
-	/*private boolean deleteById(PollCategory pollcategory, Serializable id) {
-		Session session = sessionFactory.getCurrentSession();
-	    Object persistentInstance = session.load(pollcategory, id);
-	    if (persistentInstance != null) {
-	        session.delete(persistentInstance);
-	        return true;
-	    }
-	    return false;
-	}*/
+	
 }
 
