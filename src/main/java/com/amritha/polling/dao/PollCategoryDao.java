@@ -4,6 +4,7 @@ package com.amritha.polling.dao;
 import java.util.List;
 
 import com.amritha.polling.model.PollCategory;
+import com.amritha.polling.model.User;
 
 public interface PollCategoryDao {
 
@@ -11,7 +12,7 @@ public interface PollCategoryDao {
 
 	public void savecategory(PollCategory pollcategory);
 
-	public Boolean deletecategory(int id);
+	public Boolean deletecategory(int id,User user);
 
 	public PollCategory getcategorybyid(int id);
 

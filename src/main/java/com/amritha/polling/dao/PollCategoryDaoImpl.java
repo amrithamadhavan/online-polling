@@ -1,6 +1,7 @@
 package com.amritha.polling.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
+import com.amritha.polling.model.Result;
+import com.amritha.polling.model.User;
 
 
 @Repository("pcDao")
@@ -37,6 +40,8 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	UserDao userDao;
 
 	public PollCategoryDaoImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;}
@@ -56,11 +61,26 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 	
 }
 	@Transactional
-	public Boolean deletecategory(int id) {
+	public Boolean deletecategory(int id,User user) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		PollCategory pollcategory=new PollCategory();
 				pollcategory=(PollCategory)sessionFactory.getCurrentSession().get(pollcategory.getClass(),id);
+				
+				
+
+				List<User> userlist=userDao.listusers();	
+				for(User u:userlist) {
+					List<PollCategory> p=u.getPollcategory();
+					List<PollCategory> a=new ArrayList<PollCategory>(p);
+					for(PollCategory m:a) {
+					if(m.equals(pollcategory)) {
+						p.remove(pollcategory);
+					}
+				}
+					u.setPollcategory(p);
+					userDao.saveondelete(u);
+				}
 				
 				List<PollQuestions> pq=pollcategory.getQuestions();
 				
@@ -69,11 +89,19 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 		{	
 		/*PollQuestions que=new PollQuestions();
 		que.setId(pollque.getId());*/
+			Result result=new Result();
+			result.setPollquestion(pollque);
+			sessionFactory.getCurrentSession().delete(result);
 			session.delete(pollque);
-				System.out.println("hello");}
-				
+				System.out.println("hello1");}
+		
+		
+		
+		
+		
+		
 		session.delete(pollcategory);
-		System.out.println("hello");
+		System.out.println("hello2");
 	return true;	
 	}
 	

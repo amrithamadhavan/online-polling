@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
+import com.amritha.polling.model.Result;
 
 @Repository("pqDao")
 public class PollQuestionsDaoImpl implements PollQuestionsDao {
@@ -38,6 +39,9 @@ public class PollQuestionsDaoImpl implements PollQuestionsDao {
 	@Transactional
 	public void deletequestion(PollQuestions question, int id) {
 		question.setId(id);
+		Result result=new Result();
+		result.setPollquestion(question);
+		sessionFactory.getCurrentSession().delete(result);
 		sessionFactory.getCurrentSession().delete(question);
 		
 	}

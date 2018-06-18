@@ -15,5 +15,12 @@ public interface UserDao {
 	List<User> getPollMasters();
 
 	User getUserById(int pmid);
+	User getuserbyname(String uname);
+	
+	public boolean checkuser(String name);
+	
+	public void saveondelete(User user);
+	
+	public void saveonpwdencrypt(User user);
 }
 

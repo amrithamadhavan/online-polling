@@ -1,5 +1,7 @@
 package com.amritha.polling.dao;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
@@ -32,6 +34,12 @@ public class ResultDaoImpl implements ResultDao{
 		catch(Exception e) {
 		return null;
 	}
+
+}
+	
+	@Transactional
+	public List<Result> listquestionsbycid(int id){
+		return sessionFactory.getCurrentSession().createQuery("from Result where CID='"+id+"'",Result.class).getResultList();
 
 }
 }
