@@ -1,7 +1,10 @@
 package com.amritha.polling.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.amritha.polling.dao.PollCategoryDao;
 import com.amritha.polling.dao.PollQuestionsDao;
+import com.amritha.polling.dao.ResultDao;
 import com.amritha.polling.dao.UserDao;
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
@@ -30,6 +36,8 @@ public class AdminController {
 	PollQuestionsDao pqDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	ResultDao resultDao;
 	@RequestMapping("/dispajax")
 		public String categorydetails(Model model) {
 			
@@ -131,6 +139,14 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 	public @ResponseBody List<User> listusers(Model model)
 	{
 		List<User> userlist=userDao.listusers();
+		List<User> newlist=new ArrayList<User>(userlist);
+		User user=userDao.getUserById(2);
+		for(User u:newlist) {
+			if(u.equals(user)) {
+				userlist.remove(user);
+			}
+		}
+		
 		//model.addAttribute("users",userlist);
 		return userlist;
 	}
@@ -145,22 +161,36 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 }
 	
 	@RequestMapping("/addcategory")
-	public String addcategory(Model model) {
+	public String addcategory(Model model,HttpSession session) {
 		model.addAttribute("pollcategory",new PollCategory());
+		session.setAttribute("session1", "abc");
 		return "categoryadd";
 	}
-	@RequestMapping("/savecategory")
-		public  String addcategory(@ModelAttribute("pollcategory") PollCategory pollcategory,BindingResult bindingresult,Model model) {
+	@RequestMapping(value= {"/savecategory"},method= {RequestMethod.POST })
+		public  String addcategory(@ModelAttribute("pollcategory") PollCategory pollcategory,BindingResult bindingresult,Model model,RedirectAttributes ra) {
 		System.out.println("hello");
 		 if (bindingresult.hasErrors()) {
 			 System.out.println("hiihello");
+			// return "redirect:/disajax";
+			
 	         return "categoryadd";
 	      }
 		pcDao.savecategory(pollcategory);
+		
 		List<PollCategory> pc=pcDao.listcategories();
 		model.addAttribute("categories", pc);
 		String msg="hello";
 		model.addAttribute("pollcategory", new PollCategory());
+		//status.setComplete();
+		ra.addFlashAttribute("categories", pc);
+		return "redirect:/admin/successhandler";
+	//	return "adminpolls";
+	}
+	
+	@RequestMapping(value= {"/successhandler"},method= {RequestMethod.GET})
+	public String successhandler(@ModelAttribute("categories") List<PollCategory> categories,Model model)
+	{
+		model.addAttribute("categories", categories);
 		return "adminpolls";
 	}
 	
@@ -170,6 +200,9 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 	model.addAttribute("pq", pqDao.listquestions(id));
 		return "listquestions";
 	}
+	
+	
+	
 	/*@RequestMapping("/addquestions/{id}")
 	public String addquestions(@PathVariable("id") int id,Model model) {
 		model.addAttribute("cid",id);
@@ -224,9 +257,9 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 	}*/
 		
 		@RequestMapping("/deletecategory/{id}")
-	public String deletecategory(@PathVariable("id") int id,Model model) {
-		
-		Boolean b=pcDao.deletecategory(id);
+	public String deletecategory(@PathVariable("id") int id,Model model,Principal user) {
+		User user1=userDao.getuserbyname(user.getName());
+		Boolean b=pcDao.deletecategory(id,user1);
 		List<PollCategory> pc=pcDao.listcategories();
 		model.addAttribute("categories", pc);
 		model.addAttribute("pollcategory", new PollCategory());

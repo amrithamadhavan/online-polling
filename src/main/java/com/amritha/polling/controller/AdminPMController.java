@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.amritha.polling.dao.PollCategoryDao;
 import com.amritha.polling.dao.PollQuestionsDao;
@@ -64,6 +65,7 @@ public class AdminPMController {
 		pqDao.savequestion(question);
 		model.addAttribute("id", cid);
 		model.addAttribute("pq", pqDao.listquestions(cid));
+	
 		return "listquestions";
 	}
 	@RequestMapping("/editquestion/{id}")
