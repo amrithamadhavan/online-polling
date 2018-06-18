@@ -6,6 +6,45 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<ul style="margin-left:100px;margin-top:100px">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+.container {
+    padding: 16px;
+}
+hr {
+    border: 1px solid #a6a6a6;
+    margin-bottom: 25px;
+}
+a:link{
+color: grey;
+
+text-decoration: none;
+opacity: 1;
+}
+a:visited{
+color: grey;
+
+text-decoration: none;
+opacity: 1;
+}
+a:hover {
+    color: grey;
+
+    text-decoration: none;
+    opacity: 0.5;
+}
+a:active {
+    color: grey;
+  
+    text-decoration: none;
+    opacity: 0.7;
+}
+
+</style>
+
+
 </head>
 <body>
 
@@ -59,29 +98,28 @@
 </form:form>-->
 
 <div class="container">
-  <div class="jumbotron">
-    <h1>welcome..!</h1> 
-    
-  </div>
-  
-</div>
+<h2><b>The list of polls</b></h2>
+<hr>
 
-
-
-
-<ul style="margin-left:600px;margin-top:100px">
-<c:forEach items="${categories}" var="category">
-<h2><li><a class="col-sm-3" href="${pageContext.request.contextPath}/admin/listquestions/${category.id}">${category.pollcategory}</a><a class="btn btn-info btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/editcategory/${category.id}">Edit</a><a class="btn btn-danger btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/deletecategory/${category.id}">delete</a><a class="btn btn-primary btn-sm" style="margin-left:20px" href="${pageContext.request.contextPath}/admin/pollmasters/${category.id}">PollMasters</a></h2>
+<c:forEach  items="${categories}" var="category">
+<h2><a class="col-sm-6" href="${pageContext.request.contextPath}/admin/listquestions/${category.id}">${category.pollcategory}</a> 
+<a class="btn btn-info " style="margin-left:20px;color:white;" href="${pageContext.request.contextPath}/admin/editcategory/${category.id}">Edit</a>
+<a class="btn btn-danger " style="margin-left:20px;color:white;" href="${pageContext.request.contextPath}/admin/deletecategory/${category.id}">delete</a>
+<a class="btn btn-primary btn-sm" style="margin-left:20px;color:white;" href="${pageContext.request.contextPath}/admin/pollmasters/${category.id}">PollMasters</a></h2> <br>
 </c:forEach>
 </ul>
-<div style="margin-left:650px;margin-top:50px">
-<a class="btn btn-info btn-lg" href="${pageContext.request.contextPath}/admin/addcategory">Add</a>
-</div>
-<div style="margin-left:800px;margin-top:-48px">
-<a class="btn btn-info btn-lg" href="${pageContext.request.contextPath}/admin/editusers">EditUsers</a>
-</div>
+<br>
 
-
+</ul>
 <center>
+<div style="margin-top:50px">
+<a class="btn btn-info btn-lg " style="color:white;" href="${pageContext.request.contextPath}/admin/addcategory">Add</a>
+<a class="btn btn-info btn-lg" style="margin:20px;color:white;" href="${pageContext.request.contextPath}/admin/editusers">EditUsers</a>
+</center>
+</ul>
+
+</div>
+</div>
+
 </body>
 </html>

@@ -1,18 +1,13 @@
+
+
+
 <%@include file="header.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
 <style>
-hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
-}
-body {font-family: Arial, Helvetica, sans-serif;}
 
 .container {
     padding: 16px;
@@ -28,16 +23,16 @@ text-decoration: none;
 opacity: 1;
 }
 a:visited{
-color: #a6a6a6;
+color: grey;
+
 text-decoration: none;
-opacity: 0.1;
-cursor: not-allowed;
+opacity: 1;
 }
 a:hover {
     color: grey;
 
     text-decoration: none;
-    opacity: 0.7;
+    opacity: 0.5;
 }
 a:active {
     color: grey;
@@ -45,6 +40,7 @@ a:active {
     text-decoration: none;
     opacity: 0.7;
 }
+
 .alert {
     padding: 20px;
     background-color: #ff3c1a; /* Red */
@@ -68,27 +64,32 @@ a:active {
 }
 
 </style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 </head>
 <body>
-
 <div class="container">
-<h1><b>The list of Polls</b></h1>
-<hr>
-
-<ul style="margin-left:100px;margin-top:100px">
+<h2>Check Poll Results</h2>
+<hr><br><br>
+<ul>
+<c:set var="total" value="0" scope="page" />
 <c:forEach items="${categories}" var="category">
+<c:forEach items="${pollcount}"  var="count">
+<c:if test="${category.id==count.pcid}" >
+<c:set var="total" value="${total + 1}" scope="page"/>
+<h2><a class="col-sm-6" href="${pageContext.request.contextPath}/viewcount/${category.id}">${category.pollcategory}</a>${count.count}
 
-<!---->
-<h3><li><a href="${pageContext.request.contextPath}/user/listquestions/${category.id}">${category.pollcategory}</h3>
+</h2></c:if>
+
 </c:forEach>
-</ul>
-<c:if test="${tes==0}">
+</c:forEach>
+<c:if test="${total==0}">
 <div class="alert">
 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-you have completed all the polls.!
+no polls are attended yet..!
  </div>
 </c:if>
+</ul>
 </div>
-
 </body>
 </html>

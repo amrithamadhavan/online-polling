@@ -12,8 +12,22 @@
 	src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<style>
+.container {
+    padding: 16px;
+}
+hr {
+    border: 1px solid #a6a6a6;
+    margin-bottom: 25px;
+}
+</style>
+
 </head>
 <body>
+<div class="container">
+<h2><b>User list</b></h2>
+<p>Here you can edit the Role of Users</p>
+<br><br>
 
 <table id="example" class="display table table-hover" cellspacing="0" width="100% ">
 		<thead>
@@ -26,7 +40,7 @@
                 <th>edit</th>
 			</tr>
 		</thead>
-		<tfoot>
+		<!-- <tfoot>
 			<tr>
 				<th>id</th>
 				<th>uname</th>
@@ -35,13 +49,13 @@
                 <th>Role</th>
                 <th>edit</th>
 			</tr>
-		</tfoot>
+		</tfoot>-->
 
 	</table>
 	<script type="text/javascript">
 		$('#example').DataTable({
 			ajax : {
-				url : 'http://localhost:8090/online-polling/admin/listusers',
+				url : 'http://localhost:8080/online-polling/admin/listusers',
 				dataSrc : ''
 			},
 			columns : [{
@@ -69,6 +83,6 @@
 			]
 		});
 	</script>
-	
+	</div>
 </body>
 </html>
