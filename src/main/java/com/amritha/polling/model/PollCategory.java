@@ -18,6 +18,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="PollCategory")
 @Component
@@ -33,12 +35,17 @@ public class PollCategory implements Serializable{
     private int id;
 	@NotEmpty
 	private String pollcategory;
-	@OneToMany(fetch=FetchType.EAGER,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
 	
 	private List<PollQuestions> questions;
 	
-	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY)
 	private List<User> pollmasters;
+	
+	
+	
+	
+	
 	
 	public int getId() {
 		return id;
@@ -63,6 +70,14 @@ public class PollCategory implements Serializable{
 	}
 	public void setPollmasters(List<User> pollmasters) {
 		this.pollmasters = pollmasters;
+	}
+	
+	public boolean equals(Object obj) {
+	    if (obj == null) return false;
+	    if (obj == this) return true;
+	    if (!(obj instanceof PollCategory)) return false;
+	    PollCategory o = (PollCategory) obj;
+	    return o.id== this.id && o.getPollcategory()==this.getPollcategory();
 	}
 
 	

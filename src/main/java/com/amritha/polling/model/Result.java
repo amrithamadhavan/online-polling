@@ -2,8 +2,11 @@ package com.amritha.polling.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -16,16 +19,24 @@ import org.springframework.web.context.annotation.ApplicationScope;
 public class Result implements Serializable{
 	
 	@Id
-	private int qid;
+	@OneToOne(fetch=FetchType.EAGER)
+	private PollQuestions pollquestion;
 	private int op1cnt;
 	private int op2cnt;
 	private int op3cnt;
-	public int getQid() {
+	private int cid;
+	public PollQuestions getPollquestion() {
+		return pollquestion;
+	}
+	public void setPollquestion(PollQuestions pollquestion) {
+		this.pollquestion = pollquestion;
+	}
+	/*public int getQid() {
 		return qid;
 	}
 	public void setQid(int qid) {
 		this.qid = qid;
-	}
+	}*/
 	public int getOp1cnt() {
 		return op1cnt;
 	}
@@ -43,6 +54,12 @@ public class Result implements Serializable{
 	}
 	public void setOp3cnt(int op3cnt) {
 		this.op3cnt = op3cnt;
+	}
+	public int getCid() {
+		return cid;
+	}
+	public void setCid(int cid) {
+		this.cid = cid;
 	}
 	
 

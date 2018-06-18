@@ -34,7 +34,7 @@ public class PollQuestions implements Serializable{
 	private String op2;
 	
 	private String op3;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	private PollCategory pollcategory;
 	public int getId() {
 		return id;
