@@ -16,12 +16,18 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 //import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.annotation.ApplicationScope;
-
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter; 
 @Configuration
 @ComponentScan("com.amritha.polling")
 @EnableTransactionManagement
 
-public class ApplicationContextConfig{
+public class ApplicationContextConfig {
+	
+	
+	
+	
 	@Autowired
 	@Bean(name = "dataSource")
 	public BasicDataSource getDataSource() {
@@ -39,6 +45,7 @@ public class ApplicationContextConfig{
 		properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		properties.put("hibernate.hbm2ddl.auto", "update");
 		properties.put("hibernate.enable_lazy_load_no_trans", "true");
+		
 
 		return properties;
 
