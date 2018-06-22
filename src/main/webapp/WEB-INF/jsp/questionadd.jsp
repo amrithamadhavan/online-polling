@@ -10,14 +10,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}
 .table1
 {
-border: 1px solid white;
+
 width: 100%;
 padding: 15 px;
 text-align: right;
 margin-bottom: 30px;
 
 }
-td{
+td,th{
 height: 50px;
 
 padding: 0px 20px;
@@ -38,44 +38,103 @@ width: 100px;
 height: 30px;
 float: center;
 }
+.alert {
+    padding: 20px;
+    background-color: #ff3c1a; /* Red */
+    color: white;
+    margin-top:45px;
+    margin-bottom: 15px;
+    margin-left:50px;
+    width:75%;
+    align:center;
+    height:60px;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    color: black;
+}
 </style>
 </head>
 <DIV class="container">
 <h1><b>Add Question </b><br> <br></h1>
 <h2> Category: ${pcname} </h2>
 <hr>
-<form:form action="${pageContext.request.contextPath}/ap/savequestion/${cid}" modelAttribute="question">
-              <table class="table1">
+<form action="${pageContext.request.contextPath}/ap/savequestion/${cid}" >
+               <table class="table1">
                      <tr>
-                           <td>Question:</td>
-                           <td><form:input class="form-control" type="text" name="que" required="required" path="que"/></td>
+                           <th><h3>Question</h3></th></tr>
+                           <tr>
+                           <td><input class="form-control" type="text" name="question"  ></td>
                      </tr>
-                     <tr>
-                           <td>option 1:</td>
-                           <td><form:input class="form-control" type="text" name="op1" required="required" path="op1"/></td>
-                     </tr>
-                     <tr>
-                           <td>option 2:</td>
-                           <td><form:input class="form-control" type="text" name="op2" required="required" path="op2"/></td>
-                     </tr>
-                     <tr>
-                           <td>option 3:</td>
-                           <td><form:input class="form-control" type="text" name="op3"  path="op3"/></td>
-                     
-              <form:input type="hidden" name="category" required="required" value="${cid}"  path="pollcategory.id"/>
-                     
-              <!--   <tr>
-                           <td>Category:</td>
-                           <td><form:select path="pollcategory.id">
-                          <form:options items="${pollcategorylist}" itemLabel="pollcategory" itemValue="id"></form:options>
-                          </form:select>
-                               </td>
-                     </tr>-->
+
+         </table>
+         <div>
+    <c:if test="${tes==0}">
+      <div class="alert">
+<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+Question must not be empty.!
+ </div>
+
+</c:if>
+</div>
+         <table>
+                  <th><H3>Options</H3></th>
+                      <tbody id="btn">
+                   
+              </tbody>
+               </table>
+               <table>
+                <tr>
+                   <td> <button type="button"  onclick="generateRow()" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-plus"></span> Plus
+        </button> <button type="button" onclick="removerow()" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-remove"></span> Remove 
+        </button></td>
+        </tr>
+        </table>
+        <table>
                      <tr>
                      <td> </td>
                            <td><input type="submit" value="Add"  style="margin: 0px 400px" class="btn btn-primary"></td>
                      </tr>
                      
               </table>
-       </form:form>
-       </DIV>
+       </form>
+      
+      <script>
+var i=0;
+
+function generateRow() 
+{
+  i++;
+  //alert(i);
+//document.write("hello");
+var d=document.getElementById("btn");
+d.innerHTML+="<tr id='"+i+"'><td><input type='text' class='form-control' required='required' name='option" + i + "' /></td></tr><br>";
+}
+function removerow(){
+	//'${count}'='${count}'-1;
+//alert(i);
+var element = document.getElementById("btn");
+var child=document.getElementById(i);
+element.removeChild(child);
+	i--;
+}
+</script>
+
+       
+       
+</body>
+
+       </html>

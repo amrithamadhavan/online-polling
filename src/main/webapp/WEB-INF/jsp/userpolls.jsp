@@ -30,7 +30,7 @@ opacity: 1;
 a:visited{
 color: #a6a6a6;
 text-decoration: none;
-opacity: 0.1;
+opacity: 1;
 cursor: not-allowed;
 }
 a:hover {

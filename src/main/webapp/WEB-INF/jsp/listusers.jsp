@@ -34,7 +34,7 @@ hr {
 			<tr>
 				<th>id</th>
 				<th>uname</th>
-				<th>password</th>
+				
 				
                 <th>Role</th>
                 <th>edit</th>
@@ -64,9 +64,7 @@ hr {
 			 {
 				data : 'uname'
 			}, 
-			{
-				data : 'pwd'
-			}, 
+			
 			{
 				data : 'role'
 			}, 

@@ -54,9 +54,9 @@ float: left;
 </head>
 <body>
   <div class="container">
-  <h1><b>Add categories</b></h1>
+  <h1><b>Edit category name</b></h1>
   <hr><br> <br> 
-     <form:form action="${pageContext.request.contextPath}/admin/savecategory" modelAttribute="pollcategory" method="POST">
+     <form action="${pageContext.request.contextPath}/admin/editcatsave/${id}"  method="POST">
   
    <fieldset>
   
@@ -65,8 +65,8 @@ float: left;
       <div class="col-sm-10">
       <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase"></i></span>
-      <form:input type="text" class="form-control" id="pollcategory" placeholder="Enter category you want to add" name="pollcategory" path="pollcategory"/>
-    <form:errors path = "pollcategory"  />
+      <input type="text" class="form-control" id="pollcategory" value="${pcname}" name="name" >
+
     </div>
     </div>
     </div>
@@ -79,8 +79,8 @@ Category already exists
 
 </c:if>
 </div>
-<button type="submit" class="btn btn-success btn-lg">Add</button>
-</form:form>
+<button type="submit" class="btn btn-success btn-lg">Edit</button>
+</form>
 </fieldset>
 </div>
 

@@ -12,68 +12,118 @@ hr {
     border: 1px solid #a6a6a6;
     margin-bottom: 25px;
 }
-.table1
-{
-
-width: 100%;
-padding: 15 px;
-text-align: left;
-margin-bottom: 30px;
-padding: 0px 20px;
-font-size: 20px;
-
-}
-.abc,th{
-border-bottom: 2px solid black;
-}
 td{
 height: 50px;
-
-margin-left: 15px;
+width: 120px;
+  border: 2px solid #a6a6a6;
+  text-align: center;
+  border-radius: 5%;
 }
+th{
+height: 50px;
+width: 120px;
+  border: 2px solid #a6a6a6;
+  text-align: center;
+  border-radius: 5%;
+  color: white;
+  background-color: #a6a6a6 ;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', {
+        'packages' : [ 'corechart' ]
+    });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+<c:forEach items="${hm}" var="m" varStatus="q">
+        // Create the data table.    
+       var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Option');
+        data.addColumn('number', 'Count');
+        data.addRows([
+                   
+                    <c:forEach items="${m.value}" var="o">
+                                                                  [ '${o.key}', ${o.value} ],
+                                                              </c:forEach>
+                    ]);
+        // Set chart options
+        var options = {
+            'title' : "",
+            is3D : true,
+            pieSliceText: 'label',
+            tooltip :  {showColorCode: true},
+            'width' : 800,
+            'height' : 400,
+            backgroundColor: '#f2f2f2'
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div${q.index}'));
+        chart.draw(data, options);
+        </c:forEach>
+    }
+</script>
+
+
+
+
 </head>
 <body>
 
+
+
 <div class="container">
-<h2>Question level Results</h2><br>
-<table class="table1">
+<h2>Question level Results</h2>
+<p>See your poll results here!</p>
+<hr>
 
-<th>Question</th><th>Count</th>
 
-<c:forEach items="${result}" var="output">
-<h2>
-<tr><td></td><td></td></tr>
 
+<!--<c:set var="total" value="${output.op1cnt+output.op2cnt+output.op3cnt}" />
+
+-->
+
+
+
+<c:forEach items="${hm}" var="q" varStatus="a">
+<div>
+<h3><b>${q.key}</b></h3>
+<div id="chart_div${a.index}" ></div>
+
+<table style="margin-left: 800px;margin-top:-300px;margin-bottom: 250px">
 <tr>
-<c:set var="total" value="${output.op1cnt+output.op2cnt+output.op3cnt}" />
-<td><b>
-${output.getPollquestion().getQue()}<br><br></td>
-<td>${total}</h2></b></td>
+<th>Option</th>
+<th>Count</th>
 </tr>
-<!-- <input type="radio" name="radioname" value="${output.getPollquestion().getOp1()}">${question.op1}<br>
-<input type="radio" name="radioname" value="${output.getPollquestion().getOp2()}">${question.op2}<br>
-<input type="radio" name="radioname" value="${output.getPollquestion().getOp3()}">${question.op3}<br>
-</li></h3>-->
-<h3>
-<tr>
-<td>
-${output.getPollquestion().getOp1()}   </td><td>   ${output.op1cnt}</td></tr>
-<tr>
-<td>
-${output.getPollquestion().getOp2()}  </td><td>   ${output.op2cnt}</td></tr>
-<tr>
-<td>
-${output.getPollquestion().getOp3()} </td>
-<td>   ${output.op3cnt}</td>
-</tr>
-<tr class="abc">
-<td></td><td></td></tr>
-</h3>
+<c:forEach items="${q.value}" var="o" >
 
-</c:forEach>
-
+<tr>
+<td>${o.key} </td>   
+ <td>    ${o.value} </td>
+ </tr>
+ </c:forEach>
 </table>
+
+
+
 </div>
+</c:forEach>
+<br>
+<br>
+</div>
+</body>

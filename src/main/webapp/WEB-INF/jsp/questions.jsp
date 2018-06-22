@@ -19,7 +19,7 @@ hr {
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}
 input[type=submit]{
-color: black;
+color: white;
 padding: 0px 10px;
 width: 100px;
 height: 30px;
@@ -29,34 +29,59 @@ backgorund-color: #23a5f6;
     </style>
 
 </head>
-<body>
+<body onload="myfunc()">
 
 <div class="container">
 <h1><b>Let your Votes get into Action!</b></h1>
 <hr>
 
-
 <ul>
-<form:form action="${pageContext.request.contextPath}/user/submit/${id}" modelAttribute="que" method="POST">
-<c:forEach items="${pq}" var="question" varStatus="ch">
-<h3>
-<br>
 
-<li>${question.que}<br><br>
-<!--<form:radiobutton name="radioname" value="${question.op1}" label="${question.op1}" path="op1" /><br>
-<form:radiobutton name="radioname" value="${question.op2}" label="${question.op2}" path="op2" /><br>
-<form:radiobutton name="radioname" value="${question.op3}" label="${question.op3}" path="op3" /><br>-->
- <input type="radio" name="radioname[${ch.index}]" value="${question.op1}">${question.op1}
-<input type="radio" name="radioname[${ch.index}]" value="${question.op2}">${question.op2}
-<input type="radio" name="radioname[${ch.index}]" value="${question.op3}">${question.op3}
-<input type="hidden" name="qid[${ch.index}]" value="${question.id}">
-</li></h3>
+<form:form action="${pageContext.request.contextPath}/user/submit/${id}"  method="POST">
 
-
-</c:forEach>
-<input type="submit" name="submit" style="float: center;margin: 3px 400px"  />
+      <c:if test="${not empty hm1}">
+      
+      <c:forEach items="${hm1}" var="listElemen" varStatus="q">
+       <h3><br>
+            <li>${listElemen.key}</li><input type="hidden"  name="qname${q.index}" value="${listElemen.key}"><br>
+           
+           
+          <c:forEach items="${listElemen.value}" var="listElement">
+          <c:if test="${listElement.value==0}">
+              <input type="radio" name="radioname${q.index}" value="${listElement.key}">${listElement.key}
+          </c:if>
+           <c:if test="${listElement.value==1}">
+              <input type="radio" name="radioname${q.index}" value="${listElement.key}" checked>${listElement.key}
+          </c:if>
+           </c:forEach>
+           </h3>
+           </c:forEach>
+      
+          </c:if>
+      
+      
+      <c:if test="${empty hm1}">
+      
+      
+             <c:forEach items="${hm}" var="listElemen" varStatus="q">
+       <h3><br>
+            <li>${listElemen.key}</li><input type="hidden"  name="qname${q.index}" value="${listElemen.key}"><br>
+           
+           
+          <c:forEach items="${listElemen.value}" var="listElement">
+              <input type="radio" name="radioname${q.index}" value="${listElement.key}">${listElement.key}
+           </c:forEach>
+           </h3>
+           </c:forEach>
+           </c:if>
+           <center>
+       <input type="submit" class="btn btn-md btn-info" value="Save" style="float: center;margin-left:50px;margin-top:50px" onclick="form.action='${pageContext.request.contextPath}/user/save/${id}';">
+<input type="submit" class="btn btn-md btn-success" name="submit" style="float: center;margin-left:50px;margin-top:50px"  />
+</center>
+<!-- <a href="${pageContext.request.contextPath}/user/save/${id}" class="btn btn-md btn-info">Save</a>-->
 </form:form>
 </ul>
+
 
 <!-- <script>
 $('input[type=submit]').click(function() {
@@ -65,6 +90,30 @@ $('input[type=submit]').click(function() {
 })
 </script>-->
 </div>
+<!-- <script>
+function myfunc(){
+	//document.getElementsByName('radioname0').val=localStorage.getItem('qname0');
+	//alert("hi");
+	
+	var radios = document.getElementsByName("radioname0");
+	alert(radios.length);
+	var val = localStorage.getItem('qname0'); // local storage value
+	for(var i=0;i<radios.length;i++){
+	  if(radios[i].value == val){
+	      radios[i].checked = true; // marking the required radio as checked
+	  }
+	}
+	// list of radio buttons
+}
+$('#myform input').on('change', function() {
+	
+	   alert($('input[name=radioname0]:checked', '#myform').val()); 
+	   localStorage.setItem('qname0',$('input[name=radioname0]:checked', '#myform').val());
+	   alert(localStorage.getItem('qname0'));
+	   
+	  
+	});
+</script>-->
 
 </body>
 </html>

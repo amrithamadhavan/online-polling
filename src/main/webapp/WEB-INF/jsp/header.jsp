@@ -16,23 +16,28 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
     <style>
   body { background-color: #f2f2f2;}
   body {font-family: Arial, Helvetica, sans-serif;}
   </style>
- <!--  <script type="text/javascript">
-  window.history.forward();
-  function noBack(){ window.history.forward();}
-  
-  </script>-->
+ <script type = "text/javascript" >
+
+   function preventBack(){window.history.forward();}
+
+    setTimeout("preventBack()", 0);
+
+    window.onunload=function(){null};
+
+</script>
 </head>
 <body>
-<!-- <body onload="noBack();" onpageshow=if (event.persisted) noBack();" onunload="">-->
+<security:authentication var="user" property="principal" />
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     
     <ul class="nav navbar-nav">
-      <li class="active"><a href="${pageContext.request.contextPath}/">HOME</a></li>
+      <li><a href="${pageContext.request.contextPath}/">HOME</a></li>
     
    
       
@@ -64,31 +69,47 @@
     <security:authorize access="hasRole('ROLE_USER')">
      <ul class="nav navbar-nav">
      <li><a href="${pageContext.request.contextPath}/user/polls">Polls</a></li>
+     <li><a href="${pageContext.request.contextPath}/user/result" class="btn btn-md">
+          <span class="glyphicon glyphicon-stats"></span> Result
+        </a></li>
      </ul>
      </security:authorize>
      <security:authorize access="hasRole('ROLE_POLLMASTER')">
      <ul class="nav navbar-nav">
      <li><a href="${pageContext.request.contextPath}/user/polls">Polls</a></li>
      <li><a href="${pageContext.request.contextPath}/pollmaster/polls">PollMaster</a>
+     <li><a href="${pageContext.request.contextPath}/pollmaster/result" class="btn btn-md">
+          <span class="glyphicon glyphicon-stats"></span> Result
+        </a></li>
      </ul>
      </security:authorize>
      
     <security:authorize access="hasRole('ROLE_ADMIN')">
      <ul class="nav navbar-nav">
      <li><a href="${pageContext.request.contextPath}/admin/dispajax">Polls</a></li>
+      <li><a href="${pageContext.request.contextPath}/admin/result" class="btn btn-md">
+          <span class="glyphicon glyphicon-stats"></span> Result
+        </a></li>
      </ul>
      </security:authorize> 
      
      <security:authorize access="isAuthenticated()">
       <ul class="nav navbar-nav navbar-right">
    
-     <li><a href="${pageContext.request.contextPath}/result" class="btn btn-md">
-          <span class="glyphicon glyphicon-stats"></span> Result
-        </a></li>
+    <li><a href="#"> <span class="glyphicon glyphicon-user"></span>Hello ${user.username}</a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
     </ul>
      </security:authorize>
     
   </div>
 </nav>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = window.location;
+        $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+        $('ul.nav a').filter(function() {
+             return this.href == url;
+        }).parent().addClass('active');
+    });
+</script> 
 </html>
