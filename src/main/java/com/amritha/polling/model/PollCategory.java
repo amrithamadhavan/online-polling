@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -35,9 +36,9 @@ public class PollCategory implements Serializable{
     private int id;
 	@NotEmpty
 	private String pollcategory;
-	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
 	
-	private List<PollQuestions> questions;
+	private PollQuestions questions;
 	
 	@ManyToMany(fetch=FetchType.LAZY)
 	private List<User> pollmasters;
@@ -59,10 +60,11 @@ public class PollCategory implements Serializable{
 	public void setPollcategory(String pollcategory) {
 		this.pollcategory = pollcategory;
 	}
-	public List<PollQuestions> getQuestions() {
+	
+	public PollQuestions getQuestions() {
 		return questions;
 	}
-	public void setQuestions(List<PollQuestions> questions) {
+	public void setQuestions(PollQuestions questions) {
 		this.questions = questions;
 	}
 	public List<User> getPollmasters() {
