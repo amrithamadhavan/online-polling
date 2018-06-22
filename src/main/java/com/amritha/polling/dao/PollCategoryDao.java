@@ -15,5 +15,7 @@ public interface PollCategoryDao {
 	public Boolean deletecategory(int id,User user);
 
 	public PollCategory getcategorybyid(int id);
+	
+	public PollCategory getcategorybyname(String cname);
 
 }

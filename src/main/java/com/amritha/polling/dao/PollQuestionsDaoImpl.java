@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amritha.polling.model.PartialSub;
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
-import com.amritha.polling.model.Result;
+
 
 @Repository("pqDao")
 public class PollQuestionsDaoImpl implements PollQuestionsDao {
@@ -39,11 +40,38 @@ public class PollQuestionsDaoImpl implements PollQuestionsDao {
 	@Transactional
 	public void deletequestion(PollQuestions question, int id) {
 		question.setId(id);
-		Result result=new Result();
-		result.setPollquestion(question);
-		sessionFactory.getCurrentSession().delete(result);
+		
+		
 		sessionFactory.getCurrentSession().delete(question);
 		
 	}
-}
+	@Transactional
+	public PollQuestions getquestionbycid(int cid) {
+		
+		try {
+		return sessionFactory.getCurrentSession().createQuery("from PollQuestions where POLLCATEGORY_ID='"+cid+"'",PollQuestions.class).getSingleResult();
+	}
+	catch(Exception e) {
+		System.out.println(e);
+		return null;}
+	}
+	
+	@Transactional
+	public PartialSub getquestionbycidanduid(int cid, int uid) {
+		
+
+		try {
+		return sessionFactory.getCurrentSession().createQuery("from PartialSub where POLLCATEGORY_ID='"+cid+"'and UID='"+uid+"'",PartialSub.class).getSingleResult();
+	}
+	catch(Exception e) {
+		System.out.println(e);
+		return null;}
+	}
+		@Transactional
+	public void savepartialquestion(PartialSub qs) {
+			
+			sessionFactory.getCurrentSession().saveOrUpdate(qs);
+	}
+	}
+
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.amritha.polling.model.PollCount;
-import com.amritha.polling.model.Result;
+
 import com.amritha.polling.model.User;
 @Repository("pollcountDao")
 public class PollCountDaoImpl implements PollCountDao{

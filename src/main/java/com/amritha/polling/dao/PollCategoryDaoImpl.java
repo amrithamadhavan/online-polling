@@ -24,13 +24,14 @@ import javax.persistence.metamodel.Metamodel;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
-import com.amritha.polling.model.Result;
+
 import com.amritha.polling.model.User;
 
 
@@ -67,7 +68,10 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 		PollCategory pollcategory=new PollCategory();
 				pollcategory=(PollCategory)sessionFactory.getCurrentSession().get(pollcategory.getClass(),id);
 				
-				
+				 String hql = "delete from PartialSub where POLLCATEGORY_ID= :id";
+				  Query query = session.createQuery(hql);
+				query.setParameter("id",id);
+				int result=query.executeUpdate();
 
 				List<User> userlist=userDao.listusers();	
 				for(User u:userlist) {
@@ -82,13 +86,12 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 					userDao.saveondelete(u);
 				}
 				
-				List<PollQuestions> pq=pollcategory.getQuestions();
+			/*	List<PollQuestions> pq=pollcategory.getQuestions();
 				
 				
 		for(PollQuestions pollque:pq)
 		{	
-		/*PollQuestions que=new PollQuestions();
-		que.setId(pollque.getId());*/
+		
 			Result result=new Result();
 			result.setPollquestion(pollque);
 			sessionFactory.getCurrentSession().delete(result);
@@ -96,7 +99,7 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 				System.out.println("hello1");}
 		
 		
-		
+		*/
 		
 		
 		
@@ -107,8 +110,25 @@ public class PollCategoryDaoImpl implements PollCategoryDao{
 	
 	@Transactional
 	public PollCategory getcategorybyid(int id) {
+		try {
 		PollCategory pc=sessionFactory.getCurrentSession().get(PollCategory.class,id);
-		return pc;
+		return pc;}
+		catch(Exception e) {
+			return null;
+		}
+	}
+	
+	
+	@Transactional
+	public PollCategory getcategorybyname(String cname) {
+		
+		try {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PollCategory.class);
+			return (PollCategory)criteria.add(Restrictions.eq("pollcategory", cname)) .uniqueResult();
+	}
+	catch(Exception e) {
+		System.out.println(e);
+		return null;}
 	}
 	
 	
