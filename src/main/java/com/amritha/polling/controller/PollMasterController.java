@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.amritha.polling.dao.PollCategoryDao;
+import com.amritha.polling.dao.PollCountDao;
 import com.amritha.polling.dao.PollQuestionsDao;
 import com.amritha.polling.dao.UserDao;
 import com.amritha.polling.model.PollCategory;
@@ -30,6 +31,8 @@ public class PollMasterController {
 PollQuestionsDao pqDao;
 @Autowired
 UserDao userDao;
+@Autowired
+PollCountDao pollcountDao;
 
 
 	@RequestMapping("/polls")
@@ -50,64 +53,26 @@ UserDao userDao;
 
 }
 	
-	/*@RequestMapping("/editcategory/{id}")
-	public  String editcategory(@PathVariable("id") int id,Model model) {
-	model.addAttribute("id", id);
-	model.addAttribute("pq", pqDao.listquestions(id));
-		return "listquestions";
-	}
-	@RequestMapping("/addquestions/{id}")
-	public String addquestions(@PathVariable("id") int id,Model model) {
-		model.addAttribute("cid",id);
-		PollCategory pc=pcDao.getcategorybyid(id);
-		model.addAttribute("pcname",pc.getPollcategory());
-		model.addAttribute("pollcategorylist", pcDao.listcategories());
-		model.addAttribute("question", new PollQuestions());
-		return "questionadd";
-	}
 	
-	@RequestMapping("/savequestion/{cid}")
-	public String savequestion(@ModelAttribute("question") PollQuestions question,@PathVariable("cid") int cid,Model model) {
-		//System.out.println("error.!");
+	@RequestMapping("/result")
+	public String showresult(Model model,Principal user) {
+	
+User user1=userDao.getuserbyname(user.getName());
 		
-		pqDao.savequestion(question);
-		model.addAttribute("id", cid);
-		model.addAttribute("pq", pqDao.listquestions(cid));
-		return "listquestions";
-	}
-	@RequestMapping("/editquestion/{id}")
-	public String editquestion(@PathVariable("id") int id,Model model) {
-		PollQuestions pollquestion=pqDao.getquestionbyid(id);
-		model.addAttribute("cid",pollquestion.getPollcategory().getId());
-		model.addAttribute("que", pollquestion);
+		List<PollCategory> pc1=user1.getPollcategory();
+		
 		List<PollCategory> pc=pcDao.listcategories();
-		model.addAttribute("categories", pc);
-		return "editquestion";
-	}
-	@RequestMapping("/confeditque/{cid}")
-	public String confirmeditque(@PathVariable("cid") int cid,@ModelAttribute("que") PollQuestions que,BindingResult bindingresult,Model model)
-	{
-		if (bindingresult.hasErrors()) {
-			 System.out.println("hiihello");
-			 System.out.println(bindingresult.getAllErrors());
-	         return "editquestion";
-	      }
-		pqDao.savequestion(que);
-		model.addAttribute("pq", pqDao.listquestions(cid));
-		model.addAttribute("id",cid);
-		return "listquestions";
+		for(PollCategory p:pc) {
+			List<User> u=p.getPollmasters();
+			if(u.contains(user1)&&(!pc1.contains(p))) {
+				pc1.add(p);
+			}
+		}
+		
+		model.addAttribute("categories", pc1);
+		model.addAttribute("pollcount", pollcountDao.getallpollcounts());
+		return "resultpolls";
 		
 	}
-	@RequestMapping("/deletequestion/{id}")
-	public String deletequestion(@ModelAttribute("question") PollQuestions question,@PathVariable("id") int id,Model model) {
-	      
-		PollQuestions pollquestion=pqDao.getquestionbyid(id);
-		int cid=pollquestion.getPollcategory().getId();
-		model.addAttribute("id",cid);
-		pqDao.deletequestion(question,id);
-		model.addAttribute("pq", pqDao.listquestions(cid));
-		return "listquestions";
-	}*/
 		
-	
 }

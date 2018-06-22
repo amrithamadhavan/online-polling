@@ -1,5 +1,7 @@
 package com.amritha.polling.controller;
 
+import java.lang.reflect.Type;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.amritha.polling.dao.PollCategoryDao;
 import com.amritha.polling.dao.PollCountDao;
 import com.amritha.polling.dao.PollQuestionsDao;
-import com.amritha.polling.dao.ResultDao;
+
 import com.amritha.polling.dao.UserDao;
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
 import com.amritha.polling.model.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @Controller
 public class HomeController {
@@ -35,13 +39,14 @@ public class HomeController {
 	PollQuestionsDao pqDao;
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	ResultDao resultDao;
+	
 	@Autowired
 	PollCountDao pollcountDao;
 	@RequestMapping("/")
 	public String setUpForm(Map<String, Object> map) {
 
+		
+		
 		return "index";
 	}
 	
@@ -126,23 +131,21 @@ return "/";
 }
 	
 	
-	@RequestMapping("/result")
-	public String showresult(Model model) {
 	
-		
-		
-		List<PollCategory> pc=pcDao.listcategories();
-		model.addAttribute("categories", pc);
-		model.addAttribute("pollcount", pollcountDao.getallpollcounts());
-		return "resultpolls";
-		
-	}
 	
 	
 	@RequestMapping("/viewcount/{id}")
 	public String countdisplay(@PathVariable("id") int id,Model model) {
 		
-		model.addAttribute("result",resultDao.listquestionsbycid(id));
+		Map<String,Map<String,Integer>> hm = null;
+		Gson gsonObj = new Gson();
+		
+		Type type = new TypeToken<Map<String, Map<String,Integer>>>(){}.getType();
+		PollQuestions pollquestion;
+		pollquestion=pqDao.getquestionbycid(id);
+		String s=pollquestion.getQuestion();
+		hm=gsonObj.fromJson(s, (java.lang.reflect.Type) type);
+		model.addAttribute("hm", hm);
 		
 		return "count";
 		

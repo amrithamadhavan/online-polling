@@ -1,8 +1,11 @@
 package com.amritha.polling.controller;
 
+import java.lang.reflect.Type;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,18 +17,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.amritha.polling.dao.PollCategoryDao;
+import com.amritha.polling.dao.PollCountDao;
 import com.amritha.polling.dao.PollQuestionsDao;
-import com.amritha.polling.dao.ResultDao;
+
 import com.amritha.polling.dao.UserDao;
 import com.amritha.polling.model.PollCategory;
 import com.amritha.polling.model.PollQuestions;
 import com.amritha.polling.model.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,7 +44,8 @@ public class AdminController {
 	@Autowired
 	UserDao userDao;
 	@Autowired
-	ResultDao resultDao;
+	PollCountDao pollcountDao;
+	
 	@RequestMapping("/dispajax")
 		public String categorydetails(Model model) {
 			
@@ -45,6 +53,18 @@ public class AdminController {
 			model.addAttribute("categories", pc);
 			model.addAttribute("pollcategory", new PollCategory());
 			return "adminpolls";
+	}
+	
+	@RequestMapping("/result")
+	public String showresult(Model model) {
+	
+		
+		
+		List<PollCategory> pc=pcDao.listcategories();
+		model.addAttribute("categories", pc);
+		model.addAttribute("pollcount", pollcountDao.getallpollcounts());
+		return "resultpolls";
+		
 	}
 	
 	@RequestMapping("/editusers")
@@ -151,19 +171,38 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 		return userlist;
 	}
 	@RequestMapping("/listquestions/{id}")
-	public String listques(@PathVariable("id") int id, Model model) {
-		model.addAttribute("pq", pqDao.listquestions(id));
-		//model.addAttribute("que",new PollQuestions());
+	public ModelAndView listques(@PathVariable("id") int id, Model model) {
+		Map<String,Map<String,Integer>> hm = null;
+		Gson gsonObj = new Gson();
 		
-		model.addAttribute("id", id);
-		return "listquestions";
-
+		Type type = new TypeToken<Map<String, Map<String,Integer>>>(){}.getType();
+		PollQuestions pollquestion;
+		pollquestion=pqDao.getquestionbycid(id);
+		if(pollquestion==null) {
+			hm=new HashMap<String,Map<String,Integer>>();
+			pollquestion=new PollQuestions();
+			System.out.println("hi");
+			PollCategory pc=pcDao.getcategorybyid(id);
+			pollquestion.setPollcategory(pc);
+		}
+		else {
+		
+		 System.out.println("hello");
+			String s=pollquestion.getQuestion();
+			hm=gsonObj.fromJson(s, (java.lang.reflect.Type) type);
+			
+		}
+		
+		ModelAndView mav = new ModelAndView("listquestions");
+		mav.addObject("hm", hm);
+        mav.addObject("id", id);
+	return mav;
 }
 	
 	@RequestMapping("/addcategory")
 	public String addcategory(Model model,HttpSession session) {
 		model.addAttribute("pollcategory",new PollCategory());
-		session.setAttribute("session1", "abc");
+		//session.setAttribute("session1", "abc");
 		return "categoryadd";
 	}
 	@RequestMapping(value= {"/savecategory"},method= {RequestMethod.POST })
@@ -175,6 +214,10 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 			
 	         return "categoryadd";
 	      }
+		if(pcDao.getcategorybyname(pollcategory.getPollcategory())!=null) {
+			model.addAttribute("tes", 0);
+			return "categoryadd";
+		}
 		pcDao.savecategory(pollcategory);
 		
 		List<PollCategory> pc=pcDao.listcategories();
@@ -183,25 +226,39 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 		model.addAttribute("pollcategory", new PollCategory());
 		//status.setComplete();
 		ra.addFlashAttribute("categories", pc);
-		return "redirect:/admin/successhandler";
-	//	return "adminpolls";
+		//return "redirect:/admin/successhandler";
+	return "adminpolls";
 	}
 	
-	@RequestMapping(value= {"/successhandler"},method= {RequestMethod.GET})
-	public String successhandler(@ModelAttribute("categories") List<PollCategory> categories,Model model)
-	{
-		model.addAttribute("categories", categories);
-		return "adminpolls";
-	}
+	
 	
 	@RequestMapping("/editcategory/{id}")
 	public  String editcategory(@PathVariable("id") int id,Model model) {
 	model.addAttribute("id", id);
-	model.addAttribute("pq", pqDao.listquestions(id));
-		return "listquestions";
+	PollCategory pc=pcDao.getcategorybyid(id);
+	model.addAttribute("pcname", pc.getPollcategory());
+	
+		return "categoryedit";
 	}
 	
-	
+	@RequestMapping("/editcatsave/{id}")
+	public String editcatsave(@PathVariable("id") int id,Model model,@RequestParam String name) {
+		
+		
+		if(pcDao.getcategorybyname(name)!=null) {
+			model.addAttribute("tes", 0);
+			return "categoryedit";
+		}
+		
+		PollCategory pc=pcDao.getcategorybyid(id);
+		pc.setPollcategory(name);
+		pcDao.savecategory(pc);
+		model.addAttribute("pollcategory", new PollCategory());
+		List<PollCategory> p=pcDao.listcategories();
+		model.addAttribute("categories", p);
+		return "adminpolls";
+		
+	}
 	
 	/*@RequestMapping("/addquestions/{id}")
 	public String addquestions(@PathVariable("id") int id,Model model) {
