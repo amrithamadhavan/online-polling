@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.amritha.polling.dao.PollCategoryDao;
 import com.amritha.polling.dao.PollCountDao;
@@ -42,6 +45,11 @@ public class HomeController {
 	
 	@Autowired
 	PollCountDao pollcountDao;
+	
+	
+	/*@Autowired
+    private JavaMailSender mailSender;*/
+	
 	@RequestMapping("/")
 	public String setUpForm(Map<String, Object> map) {
 
@@ -99,25 +107,45 @@ return "/";
 	       model.addAttribute("user",new User());
 	    return "forgetpassword";
 	}
-	@RequestMapping(value="/changepassword")
-	public String changepassword(@ModelAttribute("User") User user,Model model) {
-	      User user1;
-	     /* List<User> userslist=userDao.listusers();
-	       for(User u:userslist) {
+	/*@RequestMapping(value="/changepassword")
+	public String changepassword(@ModelAttribute("User") User user,Model model,@RequestParam String mail) {
+	   /*   User user1;
+	     
 	       
-	              if(u.getUname().equals(user.getUname()))
-	                     {user.setPwd(user.getPwd());
-	                     
-	                     
-	                     return "redirect:/";}
-	       }*/
+	       
+	       
 	       if((user1=userDao.getuserbyname(user.getUname()))==null) {
 	    	   model.addAttribute("uDemo",new User());          
 	    	   return "/register";}
 	       user1.setPwd(user.getPwd());
-	       userDao.saveonpwdencrypt(user1);
+	       userDao.saveonpwdencrypt(user1);/////////
+		
+		
+		
+       
+        // prints debug info
+        System.out.println("To: " + mail);
+       
+         
+        // creates a simple e-mail object
+        SimpleMailMessage email = new SimpleMailMessage();
+        System.out.println("error1");
+        email.setTo(mail);
+        System.out.println("error2");
+        email.setSubject("password-reset");
+        System.out.println("error3");
+        email.setText("123");
+        System.out.println("error4");
+        // sends the e-mail
+        mailSender.send(email);
+        System.out.println("error5");
+         
+		
+		
+		
+		
 	       return "index";
-	}
+	}*/
 	
 	
 	

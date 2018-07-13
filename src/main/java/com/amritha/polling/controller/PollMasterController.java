@@ -38,8 +38,14 @@ PollCountDao pollcountDao;
 	@RequestMapping("/polls")
 	public String pmpage(Principal user,Model model) {
 		List<PollCategory> pc=pcDao.listcategories();
+		List<PollCategory> pcactive=new ArrayList<PollCategory>();
+		for(PollCategory cy:pc) {
+			if(cy.isIsactive()==true)
+				pcactive.add(cy);
+		}
+		
 		List<PollCategory> categoriestolist=new ArrayList<PollCategory>();
-       for(PollCategory category:pc ) {
+       for(PollCategory category:pcactive ) {
     	   List<User> us=category.getPollmasters();
     	   for(User pm:us) {
    			if(pm.getUname().equals(user.getName())){

@@ -54,7 +54,15 @@ UserDao userDao;
 		User user1=userDao.getuserbyname(user.getName());
 		List<PollCategory> pc=user1.getPollcategory();
 		List<PollCategory> c=pcDao.listcategories();
-		List<PollCategory> copy=new ArrayList<PollCategory>(c);
+		List<PollCategory> copy=new ArrayList<PollCategory>();
+		System.out.println("error1");
+		for(PollCategory cy:c) {
+			if(cy.isIsactive()==true)
+				copy.add(cy);
+		}
+		
+		System.out.println(copy);
+		//List<PollCategory> copy=new ArrayList<PollCategory>(c);
 		for(PollCategory p:c)
 			for(PollCategory x:pc) {
 				if(p.getId()==x.getId()) {

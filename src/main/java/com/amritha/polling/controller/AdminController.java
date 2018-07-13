@@ -1,5 +1,8 @@
 package com.amritha.polling.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -7,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,6 +46,9 @@ public class AdminController {
 	@Autowired
 	PollCategoryDao pcDao;
 	@Autowired
+	HttpServletRequest request;
+
+	@Autowired
 	PollQuestionsDao pqDao;
 	@Autowired
 	UserDao userDao;
@@ -53,6 +62,23 @@ public class AdminController {
 			model.addAttribute("categories", pc);
 			model.addAttribute("pollcategory", new PollCategory());
 			return "adminpolls";
+	}
+	
+	@RequestMapping("/activatepoll/{id}")
+	public String activatepolls(@PathVariable("id") int id,Model model)
+	{
+		
+	PollCategory pollcategory=pcDao.getcategorybyid(id);
+	if(pollcategory.isIsactive())
+		pollcategory.setIsactive(false);
+	else
+	pollcategory.setIsactive(true);
+	pcDao.savecategory(pollcategory);
+	List<PollCategory> pc=pcDao.listcategories();
+	model.addAttribute("categories", pc);
+	model.addAttribute("pollcategory", new PollCategory());
+	return "adminpolls";
+	
 	}
 	
 	@RequestMapping("/result")
@@ -160,10 +186,10 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 	{
 		List<User> userlist=userDao.listusers();
 		List<User> newlist=new ArrayList<User>(userlist);
-		User user=userDao.getUserById(2);
+		//User user=userDao.getUserById(2);
 		for(User u:newlist) {
-			if(u.equals(user)) {
-				userlist.remove(user);
+			if(u.getRole().equals("ROLE_ADMIN")) {
+				userlist.remove(u);
 			}
 		}
 		
@@ -206,7 +232,7 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 		return "categoryadd";
 	}
 	@RequestMapping(value= {"/savecategory"},method= {RequestMethod.POST })
-		public  String addcategory(@ModelAttribute("pollcategory") PollCategory pollcategory,BindingResult bindingresult,Model model,RedirectAttributes ra) {
+		public  String addcategory(@ModelAttribute("pollcategory") PollCategory pollcategory,BindingResult bindingresult, @RequestParam CommonsMultipartFile file,Model model,RedirectAttributes ra,HttpSession session) throws Exception {
 		System.out.println("hello");
 		 if (bindingresult.hasErrors()) {
 			 System.out.println("hiihello");
@@ -219,6 +245,33 @@ model.addAttribute("pmforpc",new ArrayList<User>());
 			return "categoryadd";
 		}
 		pcDao.savecategory(pollcategory);
+		
+		
+		
+		request.getServletContext().setAttribute("pollcategory", pollcategory);
+		
+		
+		pollcategory = (PollCategory) request.getServletContext().getAttribute("pollcategory");
+		
+		
+		
+		
+		ServletContext context = session.getServletContext();
+		String path = context.getRealPath("/resources/images");
+		String filename = Integer.toString(pollcategory.getId());
+
+		System.out.println(path + " " + filename);
+
+		byte[] bytes = file.getBytes();
+		BufferedOutputStream stream = new BufferedOutputStream(
+				new FileOutputStream(new File(path + File.separator + filename + ".jpg")));
+		stream.write(bytes);
+		stream.flush();
+		stream.close();
+		
+		
+		
+		
 		
 		List<PollCategory> pc=pcDao.listcategories();
 		model.addAttribute("categories", pc);
