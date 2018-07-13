@@ -68,17 +68,17 @@
     
     <security:authorize access="hasRole('ROLE_USER')">
      <ul class="nav navbar-nav">
-     <li><a href="${pageContext.request.contextPath}/user/polls">Polls</a></li>
-     <li><a href="${pageContext.request.contextPath}/user/result" class="btn btn-md">
+     <li><a href="${pageContext.request.contextPath}/user/polls" data-toggle="tooltip" title="you can attend your polls here.!">Polls</a></li>
+     <li><a href="${pageContext.request.contextPath}/user/result" data-toggle="tooltip" title="Check your results!" class="btn btn-md">
           <span class="glyphicon glyphicon-stats"></span> Result
         </a></li>
      </ul>
      </security:authorize>
      <security:authorize access="hasRole('ROLE_POLLMASTER')">
      <ul class="nav navbar-nav">
-     <li><a href="${pageContext.request.contextPath}/user/polls">Polls</a></li>
-     <li><a href="${pageContext.request.contextPath}/pollmaster/polls">PollMaster</a>
-     <li><a href="${pageContext.request.contextPath}/pollmaster/result" class="btn btn-md">
+     <li><a href="${pageContext.request.contextPath}/user/polls" data-toggle="tooltip" title="you can attend your polls here.!">Polls</a></li>
+     <li><a href="${pageContext.request.contextPath}/pollmaster/polls" data-toggle="tooltip" title="You can edit the assigned polls!">PollMaster</a>
+     <li><a href="${pageContext.request.contextPath}/pollmaster/result" data-toggle="tooltip" title="Check the results!" class="btn btn-md">
           <span class="glyphicon glyphicon-stats"></span> Result
         </a></li>
      </ul>
@@ -86,8 +86,8 @@
      
     <security:authorize access="hasRole('ROLE_ADMIN')">
      <ul class="nav navbar-nav">
-     <li><a href="${pageContext.request.contextPath}/admin/dispajax">Polls</a></li>
-      <li><a href="${pageContext.request.contextPath}/admin/result" class="btn btn-md">
+     <li><a href="${pageContext.request.contextPath}/admin/dispajax" data-toggle="tooltip" title="You can view and edit all the polls!">Polls</a></li>
+      <li><a href="${pageContext.request.contextPath}/admin/result" data-toggle="tooltip" title="Check all the results!" class="btn btn-md">
           <span class="glyphicon glyphicon-stats"></span> Result
         </a></li>
      </ul>
@@ -110,6 +110,8 @@
         $('ul.nav a').filter(function() {
              return this.href == url;
         }).parent().addClass('active');
+        
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script> 
 </html>

@@ -32,6 +32,6 @@
 
 <div class="alert">
 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-encountered an error..!
+encountered an error..!${exception.message}
  </div></body>
 </html>

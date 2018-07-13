@@ -95,9 +95,9 @@ float: center;
                </table>
                <table>
                 <tr>
-                   <td> <button type="button"  onclick="generateRow()" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-plus"></span> Plus
-        </button> <button type="button" onclick="removerow()" class="btn btn-default btn-sm">
+                   <td> <button type="button"  onclick="generateRow()" data-toggle="tooltip" title="You can add an option!" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-plus"></span> Add
+        </button> <button type="button" onclick="removerow()" data-toggle="tooltip" title="you can remove an option!" class="btn btn-default btn-sm">
           <span class="glyphicon glyphicon-remove"></span> Remove 
         </button></td>
         </tr>
@@ -105,7 +105,7 @@ float: center;
         <table>
                      <tr>
                      <td> </td>
-                           <td><input type="submit" value="Add"  style="margin: 0px 400px" class="btn btn-primary"></td>
+                           <td><input type="submit" value="Edit"  style="margin: 0px 400px" class="btn btn-primary"></td>
                      </tr>
                      
               </table>

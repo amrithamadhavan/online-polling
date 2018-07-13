@@ -48,9 +48,9 @@
       </div>
     
       <div class="item">
-        <img src="https://1kabswnt2ua3ivl0cuqv2f17-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/thank-you-note.jpg" alt="New York" style="width:100%;height:100%;">
+        <img src="${pageContext.request.contextPath}/resources/images/indexpgimg.jpg" alt="New York" style="width:100%;height:100%;">
         <div class="carousel-caption">
-          <h3>THANK YOU</h3>
+          <h3>Take Your polls</h3>
           <p>Visit us for more fun!</p>
         </div>
       </div>

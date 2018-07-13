@@ -62,34 +62,61 @@ a:active {
 .closebtn:hover {
     color: black;
 }
-
+td,th{
+width: 98%;
+height: 100px;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 </head>
 <body>
 <div class="container">
-<h2>Check Poll Results</h2>
+<div>
+<h2>Check Poll Results</h2><!-- <input style="margin-left:350px;margin-top:-40px;width:400px;float:right;" class="form-control" id="myInput" type="text" placeholder="Search..">--></div>
 <hr><br><br>
-<ul>
+
+<table>
+<tbody id="myTable">
+<tr>
+<th><h2>Poll</h2></th>
+<th><h2>PollCount</h2></th>
+</tr>
 <c:set var="total" value="0" scope="page" />
 <c:forEach items="${categories}" var="category">
 <c:forEach items="${pollcount}"  var="count">
-<c:if test="${category.id==count.pcid}" >
-<c:set var="total" value="${total + 1}" scope="page"/>
-<h2><a class="col-sm-6" href="${pageContext.request.contextPath}/viewcount/${category.id}">${category.pollcategory}</a>${count.count}
 
+<c:if test="${category.id==count.pcid}" >
+<c:set var="total" value="${total + 1}" scope="page"/><tr>
+<td><h2><a class="col-sm-6" href="${pageContext.request.contextPath}/viewcount/${category.id}">${category.pollcategory}</a></h2></td>
+<td><h2>${count.count}</h2></td>
+</tr>
 </h2></c:if>
 
 </c:forEach>
 </c:forEach>
+</tbody>
+</table>
 <c:if test="${total==0}">
-<div class="alert">
+<!-- <div class="alert">
 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
 no polls are attended yet..!
- </div>
+ </div>-->
+ <script>
+ alert("no polls are attended yet..");</script>
 </c:if>
 </ul>
 </div>
+</div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 </body>
 </html>

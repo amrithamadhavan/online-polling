@@ -14,13 +14,14 @@ hr {
 }
 body {font-family: Arial, Helvetica, sans-serif;}
 
-.container {
+.container1 {
     padding: 16px;
 }
 hr {
     border: 1px solid #a6a6a6;
     margin-bottom: 25px;
 }
+
 a:link{
 color: grey;
 
@@ -66,26 +67,63 @@ a:active {
 .closebtn:hover {
     color: black;
 }
+* {
+    box-sizing: border-box;
+}
+div.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 500px;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
 
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid">
 <h1><b>The list of Polls</b></h1>
 <hr>
 
-<ul style="margin-left:100px;margin-top:100px">
+
+
 <c:forEach items="${categories}" var="category">
 
-<!---->
-<h3><li><a href="${pageContext.request.contextPath}/user/listquestions/${category.id}">${category.pollcategory}</h3>
+<!----
+<h3><li><a href="${pageContext.request.contextPath}/user/listquestions/${category.id}">${category.pollcategory}</h3>-->
+<div class="gallery">
+
+
+<a href="${pageContext.request.contextPath}/user/listquestions/${category.id}" data-toggle="tooltip" title="click here to view the questions!"><img src="${pageContext.request.contextPath}/resources/images/${category.getId()}.jpg" width="300" height="200"></a>
+<div class="desc"><a href="${pageContext.request.contextPath}/user/listquestions/${category.id}" data-toggle="tooltip" title="click here to view the questions!"> <h1>${category.pollcategory}</h1></a>
+    <p>A public-opinion poll is no substitute for thought</p></div>
+  <!--  <a href="${pageContext.request.contextPath}/user/listquestions/${category.id}"> <h1>${category.pollcategory}</h1></a>
+    <p>A public-opinion poll is no substitute for thought</p>-->
+  </div>
+ 
+  
 </c:forEach>
-</ul>
+</div>
+
+
 <c:if test="${tes==0}">
 <div class="alert">
 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-you have completed all the polls.!
+Sorry..There are no polls available now.!
  </div>
 </c:if>
 </div>

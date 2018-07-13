@@ -56,7 +56,7 @@ float: left;
   <div class="container">
   <h1><b>Add categories</b></h1>
   <hr><br> <br> 
-     <form:form action="${pageContext.request.contextPath}/admin/savecategory" modelAttribute="pollcategory" method="POST">
+     <form:form action="${pageContext.request.contextPath}/admin/savecategory" modelAttribute="pollcategory" method="POST" enctype="multipart/form-data">
   
    <fieldset>
   
@@ -69,7 +69,10 @@ float: left;
     <form:errors path = "pollcategory"  />
     </div>
     </div>
-    </div>
+    </div><br><br>
+    <h1>Upload your image</h1>
+    <p><label for="image">Choose Image</label></p> <br>
+<p><input name="file" id="fileToUpload" type="file" /></p><br><br>
     <div>
     <c:if test="${tes==0}">
       <div class="alert">

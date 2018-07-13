@@ -85,7 +85,21 @@ height: 90px:
     </div>
     </div>
     </fieldset>
+    
     <fieldset>
+      <div class="form-group">
+   
+      <div class="col-sm-10">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      <input type="text" class="form-control" id="uname" placeholder="Enter email" name="mail">
+    <form:errors path = "uname"  />
+    </div>
+    </div>
+    </div>
+    </fieldset>
+    
+   <!--  <fieldset>
     <div class="form-group">
       
       <div class="col-sm-10">
@@ -97,7 +111,7 @@ height: 90px:
     </div>
     </div>
     </div>
-    </fieldset>
+    </fieldset>-->
      <button type="submit" class="signupbtn" >Change Password</button>
      </form:form>
 </div>

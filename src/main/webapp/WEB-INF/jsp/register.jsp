@@ -43,7 +43,7 @@ button:hover {
 }
 .signupbtn {
   float: center;
-  margin-left:170px;
+ 
   width: 50%;
 }
 .container {
@@ -72,6 +72,15 @@ margin-left:170px;
 border: 2px solid #d9d9d9;
 border-radius:5%;
 height: 90px:
+}
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+   margin-bottom:-30px;
+   margin-top:70px;
+   margin-left:50px;
 }
 
 .alert {
@@ -108,13 +117,13 @@ background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_y_
 </style>
 </head>
 <body>
-
 <div class="container">
  <h2><b>Sign-up for Users</b></h2>
   <p>Please fill in this form to create an account.</p>
   <hr>
 
- 
+<center>
+ <img src="${pageContext.request.contextPath}/resources/images/login-glyphicon.jpg" alt="Avatar" class="avatar">
  <form:form class="form-horizontal" action="registration" modelAttribute="uDemo">
   
    
@@ -170,6 +179,7 @@ Username already taken!
     
     <button type="submit" class="signupbtn" >Sign-Up</button>
   </form:form>
+  </center>
 </div>
 
 

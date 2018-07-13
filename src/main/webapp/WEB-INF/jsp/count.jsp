@@ -98,9 +98,79 @@ width: 120px;
 
 -->
 
+        <c:forEach items="${hm}" var="q" varStatus="a">
+<div>
+<h3><b>${q.key}</b></h3><br><br>
 
 
-<c:forEach items="${hm}" var="q" varStatus="a">
+
+
+<table >
+<tr>
+<th>Option</th>
+<th>Count</th>
+</tr>
+<c:forEach items="${q.value}" var="o" >
+
+<tr>
+<td>${o.key} </td>   
+ <td>    ${o.value} </td>
+ </tr>
+ </c:forEach>
+</table>
+
+
+
+
+
+  <div style="margin-left:1000px;">
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal${a.index}">Show Chart</button>
+  
+  <div class="modal fade" id="myModal${a.index}" role="dialog">
+    <div class="modal-dialog modal-lg">
+ 
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <b> <h4 class="modal-title">${q.key}</h4></b>
+          
+        </div>
+        <div class="modal-body">
+  
+  
+  
+
+
+ <div id="chart_div${a.index}" ></div>
+
+
+
+
+</div>
+<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </div>
+    </div>
+    </div>
+
+
+
+
+</div>
+</c:forEach>
+       
+
+
+
+
+
+
+
+
+
+<!--<c:forEach items="${hm}" var="q" varStatus="a">
 <div>
 <h3><b>${q.key}</b></h3>
 <div id="chart_div${a.index}" ></div>
@@ -122,7 +192,7 @@ width: 120px;
 
 
 </div>
-</c:forEach>
+</c:forEach>-->
 <br>
 <br>
 </div>

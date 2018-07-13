@@ -25,7 +25,7 @@ body { background-color: #f2f2f2;}
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 50%;
     opacity: 0.7;
 }
 
@@ -55,7 +55,7 @@ button:hover {
     border-collapse: separate;
     
     margin-top:100px;
-    width:535px;
+    width:470px;
     height:50;
 }
 .input-group1 {
@@ -64,16 +64,19 @@ button:hover {
     border-collapse: separate;
   
     margin-top:20px;
-    width:535px;
+    width:540px;
     height:50;
 }
 .abc{
 align: center;
 width: 50%;
+
+
 }
 
 .form-control{
 height:50;
+width:100%;
 }
 .forgot{
 text-decoration: underline;
@@ -88,44 +91,88 @@ margin-left: -400px;
    background-image:url("${pageContext.request.contextPath}/resources/images/loginpgb.jpg");
   
 }*/
+
+
+
+body, html {
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+   margin-bottom:-50px;
+   margin-top:70px;
+}
+
+
+
     </style>
 </head>
 <body class="bg">
 
-<div class="container">
-  
+
+    <div class="container">
   <h2><B>Login</B></h2><br>
   <h3>Enter your details to login</h3>
   <hr>
   <center>
   <div class="abc">
+
   <form class="form-horizontal" action="login" method="post" >
+<img src="${pageContext.request.contextPath}/resources/images/login-glyphicon.jpg" alt="Avatar" class="avatar">
    <fieldset>
     <div class="input-group">
     
       <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-      <input  name="username" class="form-control"  placeholder="enter username">
+      <input  name="username" class="form-control" required="required" placeholder="enter username">
     </div>
     </fieldset>
     <fieldset>
     <div class="input-group1">
       <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-      <input type="password" name="password" class="form-control" placeholder="Password">
+      <input type="password" name="password" required="required" class="form-control" placeholder="Password">
     </div>
     </fieldset>
     <br>
    
    <div >
-<input type="submit" value="login" class="signupbtn"><br><br>
-<a class="forgot" style="align: left;" href="${pageContext.request.contextPath}/forgotP
-assword">Forgot password</a>
+   <center>
+<input type="submit" value="login" class="signupbtn"></center>
+<br><br>
+<!-- <a class="forgot" style="align: left;" href="${pageContext.request.contextPath}/forgotP
+assword">Forgot password</a>-->
 
 </div>
 
 </form>
+</div>
  </div>
 <br>
 </div>
+</body>
 </center>
+<c:if test="${param.error == 'true'}">
+  <script>
+  alert("Invalid credentials");</script>
+</c:if>
 
 </html>
+
+
+
+
+
+
+
+
+
+

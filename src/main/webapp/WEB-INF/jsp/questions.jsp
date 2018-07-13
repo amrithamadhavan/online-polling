@@ -37,7 +37,7 @@ backgorund-color: #23a5f6;
 
 <ul>
 
-<form:form action="${pageContext.request.contextPath}/user/submit/${id}"  method="POST">
+<form:form action="${pageContext.request.contextPath}/user/submit/${id}" id="id" method="POST">
 
       <c:if test="${not empty hm1}">
       
@@ -75,20 +75,25 @@ backgorund-color: #23a5f6;
            </c:forEach>
            </c:if>
            <center>
+            <c:if test="${not empty hm}">
        <input type="submit" class="btn btn-md btn-info" value="Save" style="float: center;margin-left:50px;margin-top:50px" onclick="form.action='${pageContext.request.contextPath}/user/save/${id}';">
 <input type="submit" class="btn btn-md btn-success" name="submit" style="float: center;margin-left:50px;margin-top:50px"  />
+</c:if>
+ 
 </center>
+<c:if test="${empty hm}">
+<h2><p>Sorry for the inconvinience.There are no Questions in this poll.!</p></h2>
+</c:if>
 <!-- <a href="${pageContext.request.contextPath}/user/save/${id}" class="btn btn-md btn-info">Save</a>-->
 </form:form>
 </ul>
 
 
-<!-- <script>
-$('input[type=submit]').click(function() {
-    $(this).attr('disabled', 'disabled');
-    $(this).parents('form').submit()
-})
-</script>-->
+ <script>
+$('#id').submit(function(){
+    $(this).find(':input[type=submit]').prop('disabled', true);
+});
+</script>
 </div>
 <!-- <script>
 function myfunc(){
