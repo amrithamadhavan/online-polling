@@ -22,5 +22,6 @@ public interface UserDao {
 	public void saveondelete(User user);
 	
 	public void saveonpwdencrypt(User user);
+	public void create(User user,int id);
 }
 
