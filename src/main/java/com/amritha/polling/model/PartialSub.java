@@ -1,3 +1,4 @@
+
 package com.amritha.polling.model;
 
 import java.io.Serializable;

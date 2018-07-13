@@ -36,6 +36,9 @@ public class PollCategory implements Serializable{
     private int id;
 	@NotEmpty
 	private String pollcategory;
+	
+private boolean isactive;
+
 	@OneToOne(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="pollcategory",cascade=CascadeType.ALL)
 	
 	private PollQuestions questions;
@@ -61,6 +64,12 @@ public class PollCategory implements Serializable{
 		this.pollcategory = pollcategory;
 	}
 	
+	public boolean isIsactive() {
+		return isactive;
+	}
+	public void setIsactive(boolean isactive) {
+		this.isactive = isactive;
+	}
 	public PollQuestions getQuestions() {
 		return questions;
 	}
